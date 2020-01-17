@@ -1,17 +1,15 @@
-# Welcome to MkDocs
+# Welcome to Learn Cloud and Devops tools and tricks
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+This will be constantly updated with the things I keep learning everyday
 
-## Commands
+## Topics
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+* `DevOps` - DevOps Generic stuffs
+* `k8s` - Kubernetes related stuff
+* `Linux` - Linux Administration
+* `Web` - Web Development
 
-## Project layout
+## About Me
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+
+## Other stuffs
