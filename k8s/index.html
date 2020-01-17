@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>K8S - Cloud and Devops</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">Cloud and Devops</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">Home</a>
+                            </li>
+                            <li >
+                                <a href="../about/">About Me</a>
+                            </li>
+                            <li >
+                                <a href="../new/">DevOps</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">K8S</a>
+                            </li>
+                            <li >
+                                <a href="../k3s.md">K3S</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../new/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a rel="prev" >
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#kubernetes-concepts-and-learnings">Kubernetes Concepts and Learnings</a></li>
+            <li><a href="#concepts">Concepts</a></li>
+            <li><a href="#k8s-install-on-centos">K8s Install on CENTOS</a></li>
+            <li><a href="#helm">Helm</a></li>
+            <li><a href="#cert-manager">Cert-Manager</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="kubernetes-concepts-and-learnings">Kubernetes Concepts and Learnings</h1>
+<h2 id="concepts">Concepts</h2>
+<p>K8s objects are record of intent. Once you create it the kubernetes system takes care of making sure it is running all the time.
+Object spec: What is constitutes
+Object Status: Makes sure the status of the objects remains the same as defined in the status.</p>
+<h3 id="pod">Pod</h3>
+<p>A pod represents a running process on your  system sharing the same network (port and ip), storage. 
+A pod enacapsulates an applicaton running in one or more containers, pods itself doesn’t heal, 
+will need a deployment to get the self healing capability.</p>
+<h3 id="services">Services</h3>
+<p>A Kubernetes Service is an abstraction which defines a logical set of Pods and a policy by which to access them - sometimes called a micro-service. The set of Pods targeted by a Service is (usually) determined by a Label Selector (see below for why you might want a Service without a selector).
+As an example, consider an image-processing backend which is running with 3 replicas. Those replicas are fungible - frontends do not care which backend they use. While the actual Pods that compose the backend set may change, the frontend clients should not need to be aware of that or keep track of the list of backends themselves. The Service abstraction enables this decoupling.</p>
+<p>Kubernetes also supports DNS SRV (service) records for named ports. If the "my-service.my-ns" Service has a port named "http" with protocol TCP, you can do a DNS SRV query for "_http._tcp.my-service.my-ns" to discover the port number for "http".
+The Kubernetes DNS server is the only way to access services of type ExternalName</p>
+<p>Kubernetes ServiceTypes allow you to specify what kind of service you want. The default is ClusterIP.
+Type values and their behaviors are:</p>
+<ol>
+<li>ClusterIP: Exposes the service on a cluster-internal IP. Choosing this value makes the service only reachable from within the cluster. This is the default ServiceType.</li>
+<li>NodePort: Exposes the service on each Node’s IP at a static port (the NodePort). A ClusterIP service, to which the NodePort service will route, is automatically created. You’ll be able to contact the NodePort service, from outside the cluster, by requesting <NodeIP>:<NodePort>.</li>
+<li>LoadBalancer: Exposes the service externally using a cloud provider’s load balancer. NodePort and ClusterIP services, to which the external load balancer will route, are automatically created.</li>
+<li>ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up. This requires version 1.7 or higher of kube-dns.</li>
+</ol>
+<h3 id="commands">Commands</h3>
+<p>Print the kubelet joinging command:
+sudo kubeadm token create --print-join-command
+kubelet reset # to reset a node joined to a master, also from master it can be deleted like kubectl delete node <node-name></p>
+<pre><code class="bash">https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/
+
+kubectl port-forward pods/redis-master-765d459796-258hz 6379:6379
+or
+kubectl port-forward deployment/redis-master 6379:6379 
+or
+kubectl port-forward rs/redis-master 6379:6379 
+or
+kubectl port-forward svc/redis-master 6379:6379
+</code></pre>
+
+<h2 id="k8s-install-on-centos">K8s Install on CENTOS</h2>
+<pre><code class="bash">sudo swapoff -a
+sudo vi /etc/fstab
+sudo yum -y install docker
+sudo systemctl enable docker
+sudo systemctl start docker
+cat &lt;&lt; EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+sudo setenforce 0
+sudo vi /etc/selinux/config
+# Change to permissive
+sudo yum install -y kubelet kubeadm kubectl
+sudo systemctl enable kubelet
+sudo systemctl start kubelet
+cat &lt;&lt; EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
+
+#Only on master
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml
+
+# only on worker nodes
+sudo kubeadm join $controller_private_ip:6443 --token $token --discovery-token-ca-cert-hash $hash
+
+sudo kubeadm join 172.31.100.147:6443 --token w28oiv.2dx6buwbj400mc4x --discovery-token-ca-cert-hash sha256:ed0e354f71183a76cbb58166d5d710b3b39e343c253ee232509ce5f412d05b3a
+
+kubectl get nodes
+</code></pre>
+
+<h2 id="helm">Helm</h2>
+<p>Package manager for kubernetes
+Helm runs with "default" service account. You should provide permissions to it.
+For read permissions:
+kubectl create rolebinding default-view --clusterrole=view --serviceaccount=kube-system:default --namespace=kube-system</p>
+<p>For admin permissions:
+kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default</p>
+<p>More details here
+https://stackoverflow.com/questions/46672523/helm-list-cannot-list-configmaps-in-the-namespace-kube-system</p>
+<h2 id="cert-manager">Cert-Manager</h2>
+<p>Cert manager is a very important package for generating certs for applications in k8s.
+DNS01 challenge are very helpful in creating wildcard certificates, also http01 challenges are good when you want just few certs
+There are many gotchas and need to have either a role, cross account role for AWS
+For azure use the service principal.
+Also for split horizon dns cert-manager can be run using parameter `extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}’
+https://cert-manager.io/docs/configuration/acme/dns01/</p>
+<p>Steps to use cert-manager
+1.  Install cert-manager CRDS
+2.  Install cert-manager with the extra dns options in case of split horizon or delegated DNS
+3.  Create a certificate issuer in cert-manager namespace based on the CRD</p>
+<p>apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  namespace: cert-manager
+spec:
+  acme:
+    # server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: ujjwal.singh@halliburton.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - selector:
+        dnsZones:
+            - "tenant1.landmarksoftware.io"
+      dns01:
+        route53:
+            region: us-east-1
+            hostedZoneID: xxxxxxxxxxxx
+            role: 'arn:aws:iam::xxxxxxxxxx:role/Gitlab-Runner'</p>
+<ol>
+<li>Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: lets-encrypt-cert
+  namespace: ict
+spec:
+  commonName: 'ujjwal.tenant1.landmarksoftware.io'
+  dnsNames:</li>
+<li>'*.ujjwal.tenant1.landmarksoftware.io'</li>
+<li>
+<p>'ujjwal.tenant1.landmarksoftware.io'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: letsencrypt-staging-cert-secret</p>
+</li>
+<li>
+<p>Create an ingress which loads the tls certs 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress
+  namespace: ict
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  tls:</p>
+<ul>
+<li>secretName: letsencrypt-staging-cert-secret
+  rules:</li>
+</ul>
+</li>
+<li>
+<p>host: ujjwal.tenant1.landmarksoftware.io
+    http:
+      paths:
+        - path: /awx
+          backend:
+            serviceName: awx
+            servicePort: 8052 # The node port</p>
+</li>
+<li>
+<p>You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.</p>
+</li>
+</ol></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
