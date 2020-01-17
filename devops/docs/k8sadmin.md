@@ -15,6 +15,10 @@ or
 kubectl port-forward svc/redis-master 6379:6379
 ```
 
+Command to set default storage class to local-path
+`kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`
+
+
 ## K8s Install on CENTOS
 
 ```bash
@@ -72,4 +76,83 @@ kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-adm
 
 More details here
 https://stackoverflow.com/questions/46672523/helm-list-cannot-list-configmaps-in-the-namespace-kube-system
+
+
+## Cert-Manager
+
+Cert manager is a very important package for generating certs for applications in k8s.
+DNS01 challenge are very helpful in creating wildcard certificates, also http01 challenges are good when you want just few certs
+There are many gotchas and need to have either a role, cross account role for AWS
+For azure use the service principal.
+Also for split horizon dns cert-manager can be run using parameter `extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}’
+https://cert-manager.io/docs/configuration/acme/dns01/
+
+Steps to use cert-manager
+1.	Install cert-manager CRDS
+2.	Install cert-manager with the extra dns options in case of split horizon or delegated DNS
+3.	Create a certificate issuer in cert-manager namespace based on the CRD
+
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  namespace: cert-manager
+spec:
+  acme:
+    # server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: ujjwal.singh@halliburton.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - selector:
+        dnsZones:
+            - "tenant1.landmarksoftware.io"
+      dns01:
+        route53:
+            region: us-east-1
+            hostedZoneID: xxxxxxxxxxxx
+            role: 'arn:aws:iam::xxxxxxxxxx:role/Gitlab-Runner'
+
+
+
+4.	Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: lets-encrypt-cert
+  namespace: ict
+spec:
+  commonName: 'ujjwal.tenant1.landmarksoftware.io'
+  dnsNames:
+  - '*.ujjwal.tenant1.landmarksoftware.io'
+  - 'ujjwal.tenant1.landmarksoftware.io'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: letsencrypt-staging-cert-secret
+
+
+
+5.	Create an ingress which loads the tls certs 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress
+  namespace: ict
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  tls:
+    - secretName: letsencrypt-staging-cert-secret
+  rules:
+  - host: ujjwal.tenant1.landmarksoftware.io
+    http:
+      paths:
+        - path: /awx
+          backend:
+            serviceName: awx
+            servicePort: 8052 # The node port
+
+6.	You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.
 

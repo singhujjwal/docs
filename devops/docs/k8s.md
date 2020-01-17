@@ -28,85 +28,76 @@ Type values and their behaviors are:
 4. ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up. This requires version 1.7 or higher of kube-dns.
 
 
+### Volumes
+Types of volumes
+* Local
+* EBS
+* azureDisk
+* azureFile
+* configMap
+* emptyDir
+* hostPath
+* local
+* nfs
+* persistentVolumeClaim
+  
+Example of AWS EBS
+1.  Create a volume first in the same zone as the node is present using command `aws ec2 create-volume --availability-zone=eu-west-1a --size=10 --volume-type=gp2`
+2.  Use the below YAML to provide and ebs volume to a pod
 
+```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: test-ebs
+  spec:
+    containers:
+    - image: k8s.gcr.io/test-webserver
+      name: test-container
+      volumeMounts:
+      - mountPath: /test-ebs
+        name: test-volume
+    volumes:
+    - name: test-volume
+      # This AWS EBS volume must already exist.
+      awsElasticBlockStore:
+        volumeID: <volume-id>
+        fsType: ext4
+```
+4. configMap is one of the very frequently used volume which is basically a key value store [details](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
 
-## Cert-Manager
-
-Cert manager is a very important package for generating certs for applications in k8s.
-DNS01 challenge are very helpful in creating wildcard certificates, also http01 challenges are good when you want just few certs
-There are many gotchas and need to have either a role, cross account role for AWS
-For azure use the service principal.
-Also for split horizon dns cert-manager can be run using parameter `extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}’
-https://cert-manager.io/docs/configuration/acme/dns01/
-
-Steps to use cert-manager
-1.	Install cert-manager CRDS
-2.	Install cert-manager with the extra dns options in case of split horizon or delegated DNS
-3.	Create a certificate issuer in cert-manager namespace based on the CRD
-
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
+```yaml
+apiVersion: v1
+kind: Pod
 metadata:
-  name: letsencrypt-staging
-  namespace: cert-manager
+  name: configmap-pod
 spec:
-  acme:
-    # server: https://acme-staging-v02.api.letsencrypt.org/directory
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: ujjwal.singh@halliburton.com
-    privateKeySecretRef:
-      name: letsencrypt-staging
-    solvers:
-    - selector:
-        dnsZones:
-            - "tenant1.landmarksoftware.io"
-      dns01:
-        route53:
-            region: us-east-1
-            hostedZoneID: xxxxxxxxxxxx
-            role: 'arn:aws:iam::xxxxxxxxxx:role/Gitlab-Runner'
+  containers:
+    - name: test
+      image: busybox
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level
+```
 
+5.  projected : A projected volume maps several existing volume sources into the same directory. [e.g.](https://kubernetes.io/docs/concepts/storage/volumes/#projected)
 
+#### Persistent Volume
+A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource. PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
-4.	Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
-apiVersion: cert-manager.io/v1alpha2
-kind: Certificate
-metadata:
-  name: lets-encrypt-cert
-  namespace: ict
-spec:
-  commonName: 'ujjwal.tenant1.landmarksoftware.io'
-  dnsNames:
-  - '*.ujjwal.tenant1.landmarksoftware.io'
-  - 'ujjwal.tenant1.landmarksoftware.io'
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt-staging
-  secretName: letsencrypt-staging-cert-secret
+#### Persistent Volume Claim
 
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).
+It can be static of dynamic, if a cluster admin has not created a PV explicitly a dynamic PV is created when a PVC is requested.
 
-
-5.	Create an ingress which loads the tls certs 
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: traefik-ingress
-  namespace: ict
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  tls:
-    - secretName: letsencrypt-staging-cert-secret
-  rules:
-  - host: ujjwal.tenant1.landmarksoftware.io
-    http:
-      paths:
-        - path: /awx
-          backend:
-            serviceName: awx
-            servicePort: 8052 # The node port
-
-6.	You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.
+#### Storage Class
 
 
 
