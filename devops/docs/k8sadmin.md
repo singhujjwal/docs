@@ -118,6 +118,8 @@ spec:
 
 
 4.	Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
+
+```yaml
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
@@ -132,10 +134,11 @@ spec:
     kind: ClusterIssuer
     name: letsencrypt-staging
   secretName: letsencrypt-staging-cert-secret
-
+```
 
 
 5.	Create an ingress which loads the tls certs 
+```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -154,6 +157,6 @@ spec:
           backend:
             serviceName: awx
             servicePort: 8052 # The node port
-
+```
 6.	You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.
 
