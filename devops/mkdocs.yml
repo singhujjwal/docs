@@ -3,6 +3,7 @@ nav:
     - Home: index.md
     - About Me: about.md
     - DevOps: new.md
-    - K8S: k8s.md
+    - K8S Concepts: k8s.md
+    - K8S Administraton: k8sadmin.md
     - K3S: k3s.md
 
