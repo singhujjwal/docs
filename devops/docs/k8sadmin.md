@@ -92,6 +92,7 @@ Steps to use cert-manager
 2.	Install cert-manager with the extra dns options in case of split horizon or delegated DNS
 3.	Create a certificate issuer in cert-manager namespace based on the CRD
 
+```yaml
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
@@ -101,19 +102,19 @@ spec:
   acme:
     # server: https://acme-staging-v02.api.letsencrypt.org/directory
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: ujjwal.singh@halliburton.com
+    email: ujjwal.singh@example.com
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
     - selector:
         dnsZones:
-            - "tenant1.landmarksoftware.io"
+            - "tenant1.example.com"
       dns01:
         route53:
             region: us-east-1
             hostedZoneID: xxxxxxxxxxxx
-            role: 'arn:aws:iam::xxxxxxxxxx:role/Gitlab-Runner'
-
+            role: 'arn:aws:iam::xxxxxxxxxx:role/Role-DNS-STS'
+```
 
 
 4.	Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
@@ -123,10 +124,10 @@ metadata:
   name: lets-encrypt-cert
   namespace: ict
 spec:
-  commonName: 'ujjwal.tenant1.landmarksoftware.io'
+  commonName: 'ujjwal.tenant1.example.com'
   dnsNames:
-  - '*.ujjwal.tenant1.landmarksoftware.io'
-  - 'ujjwal.tenant1.landmarksoftware.io'
+  - '*.ujjwal.tenant1.example.com'
+  - 'ujjwal.tenant1.example.com'
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-staging
@@ -146,7 +147,7 @@ spec:
   tls:
     - secretName: letsencrypt-staging-cert-secret
   rules:
-  - host: ujjwal.tenant1.landmarksoftware.io
+  - host: ujjwal.tenant1.example.com
     http:
       paths:
         - path: /awx
