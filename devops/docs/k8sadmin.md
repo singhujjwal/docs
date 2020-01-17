@@ -84,8 +84,11 @@ Cert manager is a very important package for generating certs for applications i
 DNS01 challenge are very helpful in creating wildcard certificates, also http01 challenges are good when you want just few certs
 There are many gotchas and need to have either a role, cross account role for AWS
 For azure use the service principal.
-Also for split horizon dns cert-manager can be run using parameter `extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}’
+Also for split horizon dns cert-manager can be run using parameter 
+`extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}`
+
 https://cert-manager.io/docs/configuration/acme/dns01/
+
 
 Steps to use cert-manager
 1.	Install cert-manager CRDS
