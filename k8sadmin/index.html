@@ -202,26 +202,28 @@ spec:
 </code></pre>
 
 <ol>
-<li>Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace
-apiVersion: cert-manager.io/v1alpha2
+<li>Create the certificate in the namespace where you want to use the tls secret, else you need to copy the tls secret to all the namespaces if  the ingress needs to be created in another namespace</li>
+</ol>
+<pre><code class="yaml">apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: lets-encrypt-cert
   namespace: ict
 spec:
   commonName: 'ujjwal.tenant1.example.com'
-  dnsNames:</li>
-<li>'*.ujjwal.tenant1.example.com'</li>
-<li>
-<p>'ujjwal.tenant1.example.com'
+  dnsNames:
+  - '*.ujjwal.tenant1.example.com'
+  - 'ujjwal.tenant1.example.com'
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-staging
-  secretName: letsencrypt-staging-cert-secret</p>
-</li>
-<li>
-<p>Create an ingress which loads the tls certs 
-apiVersion: extensions/v1beta1
+  secretName: letsencrypt-staging-cert-secret
+</code></pre>
+
+<ol>
+<li>Create an ingress which loads the tls certs </li>
+</ol>
+<pre><code class="yaml">apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: traefik-ingress
@@ -229,24 +231,20 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
-  tls:</p>
-<ul>
-<li>secretName: letsencrypt-staging-cert-secret
-  rules:</li>
-</ul>
-</li>
-<li>
-<p>host: ujjwal.tenant1.example.com
+  tls:
+    - secretName: letsencrypt-staging-cert-secret
+  rules:
+  - host: ujjwal.tenant1.example.com
     http:
       paths:
         - path: /awx
           backend:
             serviceName: awx
-            servicePort: 8052 # The node port</p>
-</li>
-<li>
-<p>You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.</p>
-</li>
+            servicePort: 8052 # The node port
+</code></pre>
+
+<ol>
+<li>You can use https://github.com/mittwald/kubernetes-replicator for replicating secrets across namespaces.</li>
 </ol></div>
         </div>
 
