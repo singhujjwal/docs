@@ -1,4 +1,4 @@
-# Kubernetes Concepts and Learnings
+# Kubernetes Concepts
 
 ## Concepts
 K8s objects are record of intent. Once you create it the kubernetes system takes care of making sure it is running all the time.
@@ -6,6 +6,7 @@ Object spec: What is constitutes
 Object Status: Makes sure the status of the objects remains the same as defined in the status.
 
 ### Pod
+
 A pod represents a running process on your  system sharing the same network (port and ip), storage. 
 A pod enacapsulates an applicaton running in one or more containers, pods itself doesn’t heal, 
 will need a deployment to get the self healing capability.
