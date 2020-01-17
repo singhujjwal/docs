@@ -4,10 +4,10 @@ This will be constantly updated with the things I keep learning everyday
 
 ## Topics
 
-* `DevOps` - DevOps Generic stuffs
-* `k8s` - Kubernetes related stuff
-* `Linux` - Linux Administration
-* `Web` - Web Development
+* DevOps - DevOps Generic stuffs
+* k8s Concetps - Kubernetes Concepts
+* Linux - Linux Administration
+* Web - Web Development
 
 ## About Me
 
