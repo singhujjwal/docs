@@ -64,6 +64,9 @@
                             <li >
                                 <a href="../k3s/">K3S</a>
                             </li>
+                            <li >
+                                <a href="../ansible/">Ansible</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -172,8 +175,9 @@ https://stackoverflow.com/questions/46672523/helm-list-cannot-list-configmaps-in
 DNS01 challenge are very helpful in creating wildcard certificates, also http01 challenges are good when you want just few certs
 There are many gotchas and need to have either a role, cross account role for AWS
 For azure use the service principal.
-Also for split horizon dns cert-manager can be run using parameter `extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}’
-https://cert-manager.io/docs/configuration/acme/dns01/</p>
+Also for split horizon dns cert-manager can be run using parameter 
+<code>extraArgs={--dns01-recursive-nameservers "8.8.8.8:53,1.1.1.1:53"}</code></p>
+<p>https://cert-manager.io/docs/configuration/acme/dns01/</p>
 <p>Steps to use cert-manager
 1.  Install cert-manager CRDS
 2.  Install cert-manager with the extra dns options in case of split horizon or delegated DNS
