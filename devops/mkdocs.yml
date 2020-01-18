@@ -6,4 +6,5 @@ nav:
     - K8S Concepts: k8s.md
     - K8S Administraton: k8sadmin.md
     - K3S: k3s.md
+    - Ansible: ansible.md
 
