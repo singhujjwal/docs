@@ -101,4 +101,41 @@ It can be static of dynamic, if a cluster admin has not created a PV explicitly 
 
 
 
+## Ingress
+### NGINX Ingress controller
+#### Exposing TCP port 
+You can expose a TCP port from an ingress-controller directly to outside world. It can be done by installing nginx with a `nginx-ingress-tcp` config map.
+It gets created and USED only when is nginx is installed or upgraded # TBD come and revisit
+
+so do a helm install `--set tcp.9000="plat-system/tcp-echo:9000"` with this or else
+`helm upgrade` with all existing options and the above.
+After that patch the configmap and the nginx service
+
+ConfigMap as `configmap.yaml`
+
+```yaml
+data:
+  "31000": namespace/service:31000
+```
+
+`kubectl patch configmaps nginx-ingress-tcp --namespace namespace --patch "$(cat configmap.yaml)"`
+
+Service patch as ` service.yaml`
+
+```yaml
+spec:
+  ports:
+  - name: service-31000
+    port: 31000
+    protocol: TCP
+    targetPort: 31000
+```
+As you can see name `service-31000` doesn't matter.
+
+
+`kubectl patch services nginx-ingress-controller --namespace namespace --patch "$(cat service.yaml)"`
+
+
+
+
 

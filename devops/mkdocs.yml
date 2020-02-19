@@ -7,4 +7,7 @@ nav:
     - K8S Administraton: k8sadmin.md
     - K3S: k3s.md
     - Ansible: ansible.md
+    - Linux: linux.md
+    - Softnas: softnas.md
+    - Azure: azure.md
 
