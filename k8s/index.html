@@ -67,6 +67,15 @@
                             <li >
                                 <a href="../ansible/">Ansible</a>
                             </li>
+                            <li >
+                                <a href="../linux/">Linux</a>
+                            </li>
+                            <li >
+                                <a href="../softnas/">Softnas</a>
+                            </li>
+                            <li >
+                                <a href="../azure/">Azure</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -95,6 +104,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#kubernetes-concepts">Kubernetes Concepts</a></li>
             <li><a href="#concepts">Concepts</a></li>
+            <li><a href="#ingress">Ingress</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -186,7 +196,32 @@ spec:
 <h4 id="persistent-volume-claim">Persistent Volume Claim</h4>
 <p>A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).
 It can be static of dynamic, if a cluster admin has not created a PV explicitly a dynamic PV is created when a PVC is requested.</p>
-<h4 id="storage-class">Storage Class</h4></div>
+<h4 id="storage-class">Storage Class</h4>
+<h2 id="ingress">Ingress</h2>
+<h3 id="nginx-ingress-controller">NGINX Ingress controller</h3>
+<h4 id="exposing-tcp-port">Exposing TCP port</h4>
+<p>You can expose a TCP port from an ingress-controller directly to outside world. It can be done by installing nginx with a <code>nginx-ingress-tcp</code> config map.
+It gets created and USED only when is nginx is installed or upgraded # TBD come and revisit</p>
+<p>so do a helm install <code>--set tcp.9000="plat-system/tcp-echo:9000"</code> with this or else
+<code>helm upgrade</code> with all existing options and the above.
+After that patch the configmap and the nginx service</p>
+<p>ConfigMap as <code>configmap.yaml</code></p>
+<pre><code class="yaml">data:
+  &quot;31000&quot;: namespace/service:31000
+</code></pre>
+
+<p><code>kubectl patch configmaps nginx-ingress-tcp --namespace namespace --patch "$(cat configmap.yaml)"</code></p>
+<p>Service patch as <code>service.yaml</code></p>
+<pre><code class="yaml">spec:
+  ports:
+  - name: service-31000
+    port: 31000
+    protocol: TCP
+    targetPort: 31000
+</code></pre>
+
+<p>As you can see name <code>service-31000</code> doesn't matter.</p>
+<p><code>kubectl patch services nginx-ingress-controller --namespace namespace --patch "$(cat service.yaml)"</code></p></div>
         </div>
 
         <footer class="col-md-12">
