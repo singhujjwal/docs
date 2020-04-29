@@ -1,4 +1,16 @@
 # Linux ready commands
+### Quick shell commands to use 
+* Command to pull all the code from master branch in all the subdirectories in a code folder
+
+```bash
+for d in $(find -maxdepth 1 -type d) 
+do 
+  pushd $d 
+  git pull 
+  popd 
+done 
+```
+
 
 ## Ubuntu
 
