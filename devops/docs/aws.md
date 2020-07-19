@@ -1,6 +1,8 @@
-# SOFTNAS 
-
-## AWS
+# Services
+## Compute
+EC2 is the compute service on AWS
+## Storage
+### SOFTNAS usage on AWS
 
 Role is very important and the policy
 ```json

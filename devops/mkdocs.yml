@@ -4,7 +4,8 @@ nav:
     - K8S Concepts: k8s.md
     - K8S Administraton: k8sadmin.md
     - Linux: linux.md
-    - AWS: softnas.md
+    - Linux Debugging: lin_command.md
+    - AWS: aws.md
     - Azure: azure.md
     - Interview: interviewquestions.md
 
