@@ -8,4 +8,6 @@ nav:
     - AWS: aws.md
     - Azure: azure.md
     - Interview: interviewquestions.md
+    - Containers: containers.md
+    - PDFs: pdf.md
 

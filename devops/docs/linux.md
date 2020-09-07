@@ -17,7 +17,6 @@ done
 
 `mount -o rsize=32768,wsize=32768,noatime,intr <ip-address>:<export-path> <mnt-point>`
 `mkdir /mnt/myvol01`
-
 `mount -o rsize=32768,wsize=32768,noatime,intr 10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01`
 
 Make entry in /etc/fstab for permanent
@@ -47,17 +46,8 @@ Acquire::ftp::Proxy   "https://proxy.example.com:80";
 Acquire::https::Proxy "http://proxy.example.com:80";
 ```
 
-## Setting up docker
+# Troubleshooting
+## Networking 
+use either telent or ncat
 
-## Upgrading python
-
-`sudo apt install python3.8`
-
-
-`sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1`
-`sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2`
-
-`sudo update-alternatives --config python3`
-
-Install pip
-`sudo apt install python3-pip`
+nc -vvvzw1 google.com 443
