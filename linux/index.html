@@ -70,6 +70,12 @@
                             <li >
                                 <a href="../interviewquestions/">Interview</a>
                             </li>
+                            <li >
+                                <a href="../containers/">Containers</a>
+                            </li>
+                            <li >
+                                <a href="../pdf/">PDFs</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -103,8 +109,8 @@
             <li><a href="#mounting-nfs-volumes">Mounting NFS volumes</a></li>
         <li class="main "><a href="#ubuntu">Ubuntu</a></li>
             <li><a href="#setting-proxy-in-ubuntu-for-update">Setting proxy in ubuntu for update</a></li>
-            <li><a href="#setting-up-docker">Setting up docker</a></li>
-            <li><a href="#upgrading-python">Upgrading python</a></li>
+        <li class="main "><a href="#troubleshooting">Troubleshooting</a></li>
+            <li><a href="#networking">Networking</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -129,8 +135,8 @@ done
 <h1 id="centos">Centos</h1>
 <h2 id="mounting-nfs-volumes">Mounting NFS volumes</h2>
 <p><code>mount -o rsize=32768,wsize=32768,noatime,intr &lt;ip-address&gt;:&lt;export-path&gt; &lt;mnt-point&gt;</code>
-<code>mkdir /mnt/myvol01</code></p>
-<p><code>mount -o rsize=32768,wsize=32768,noatime,intr 10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01</code></p>
+<code>mkdir /mnt/myvol01</code>
+<code>mount -o rsize=32768,wsize=32768,noatime,intr 10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01</code></p>
 <p>Make entry in /etc/fstab for permanent</p>
 <p><code>10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01 nfs rw,hard,intr,rsize=32768,wsize=32768,timeo=14 0 0</code></p>
 <p>After making changes in <code>/etc/fstab</code> need to mount the directory as <code>mount /mnt/vol01/</code> and you 
@@ -147,14 +153,10 @@ Acquire::ftp::Proxy   &quot;https://proxy.example.com:80&quot;;
 Acquire::https::Proxy &quot;http://proxy.example.com:80&quot;;
 </code></pre>
 
-<h2 id="setting-up-docker">Setting up docker</h2>
-<h2 id="upgrading-python">Upgrading python</h2>
-<p><code>sudo apt install python3.8</code></p>
-<p><code>sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1</code>
-<code>sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2</code></p>
-<p><code>sudo update-alternatives --config python3</code></p>
-<p>Install pip
-<code>sudo apt install python3-pip</code></p></div>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="networking">Networking</h2>
+<p>use either telent or ncat</p>
+<p>nc -vvvzw1 google.com 443</p></div>
         </div>
 
         <footer class="col-md-12">
