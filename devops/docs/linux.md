@@ -51,3 +51,8 @@ Acquire::https::Proxy "http://proxy.example.com:80";
 use either telent or ncat
 
 nc -vvvzw1 google.com 443
+
+wget https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-2.4.0-static-linux-amd64.tar.xz
+chmod +x ./tmate 
+xz -cd te-2.4.0-static-linux-amd64.tar.xz | t 
+./tmate -F

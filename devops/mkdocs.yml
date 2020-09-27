@@ -1,6 +1,5 @@
 site_name: Cloud and Devops 
 nav:
-    - Home: index.md
     - K8S Concepts: k8s.md
     - K8S Administraton: k8sadmin.md
     - Linux: linux.md
