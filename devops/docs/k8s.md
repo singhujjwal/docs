@@ -28,6 +28,60 @@ Type values and their behaviors are:
 4. ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up. This requires version 1.7 or higher of kube-dns.
 
 
+A loadbalancer is exteneded type of nodeport service where an external loadbalancer is created based on the cloud provider.
+
+A loadbalancer will have a port mapping for the port LB is listening to the target port and the service name
+
+Tcp can be patched to the nginx ingress controller loadbalancer by creating a config map and telling where in which namespace which service on which port to hit.
+
+e.g. 
+
+
+```yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcp-echo
+  labels:
+    app: tcp-echo
+spec:
+  ports:
+  - name: tcp
+    port: 9000
+  selector:
+    app: tcp-echo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcp-echo
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: tcp-echo
+        version: v1
+    spec:
+      containers:
+      - name: tcp-echo
+        image: docker.io/istio/tcp-echo-server:1.1
+        imagePullPolicy: IfNotPresent
+        args: [ "9000", "hello" ]
+        ports:
+        - containerPort: 9000
+
+
+```
+Below created the config map nginx-ingress-tcp while creating nginx load balancer
+
+--set tcp.9000="my-system/tcp-echo:9000" \
+
 ### Volumes
 Types of volumes
 * Local
