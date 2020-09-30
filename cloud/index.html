@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://singhujjwal.github.io/docs/cloud/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>AWS - Cloud and Devops</title>
+        <title>Cloud - Cloud and Devops</title>
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -47,31 +47,16 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li >
-                                <a href="../k8s/">K8S Concepts</a>
+                                <a href="..">Home</a>
                             </li>
                             <li >
-                                <a href="../k8sadmin/">K8S Administraton</a>
+                                <a href="../k8s/">K8S Concepts</a>
                             </li>
                             <li >
                                 <a href="../linux/">Linux</a>
                             </li>
-                            <li >
-                                <a href="../lin_command/">Linux Debugging</a>
-                            </li>
                             <li class="active">
-                                <a href="./">AWS</a>
-                            </li>
-                            <li >
-                                <a href="../azure/">Azure</a>
-                            </li>
-                            <li >
-                                <a href="../interviewquestions/">Interview</a>
-                            </li>
-                            <li >
-                                <a href="../containers/">Containers</a>
-                            </li>
-                            <li >
-                                <a href="../pdf/">PDFs</a>
+                                <a href="./">Cloud</a>
                             </li>
                         </ul>
 
@@ -82,12 +67,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../lin_command/">
+                                <a rel="next" href="../linux/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../azure/">
+                            <li class="disabled">
+                                <a rel="prev" >
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -102,6 +87,8 @@
         <li class="main active"><a href="#services">Services</a></li>
             <li><a href="#compute">Compute</a></li>
             <li><a href="#storage">Storage</a></li>
+        <li class="main "><a href="#azure">AZURE</a></li>
+            <li><a href="#account-and-subscription">Account and Subscription</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -153,7 +140,20 @@
         }
     ]
 }
-</code></pre></div>
+</code></pre>
+
+<h1 id="azure">AZURE</h1>
+<h2 id="account-and-subscription">Account and Subscription</h2>
+<p>Your company has an account and you get access to the portal.azure.com but if you don't have
+a subscription, you can't do anything.
+In that case either you need to be assigned to a subscription or a tenant or you should have an owner
+role to create a subscription in that account. The account can be alternatively be called
+as tenant.
+Here is a <a href="https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles">link</a> that describe all
+types of roles in Azure</p>
+<p>Directory -&gt; tenant -&gt; Subscriptions (I see one subscription in one directory account is company account)</p>
+<p><a href="https://docs.microsoft.com/en-us/azure/role-based-access-control/role-definitions">This</a> defines a role is constructed using json, the similar way AWS IAM policies work.</p>
+<h3 id="policies-link">Policies <a href="https://docs.microsoft.com/en-us/azure/governance/policy/">link</a></h3></div>
         </div>
 
         <footer class="col-md-12">
