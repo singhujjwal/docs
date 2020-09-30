@@ -1,12 +1,12 @@
 site_name: Cloud and Devops 
+site_url: https://singhujjwal.github.io/docs/
 nav:
+    - Home: index.md
     - K8S Concepts: k8s.md
-    - K8S Administraton: k8sadmin.md
     - Linux: linux.md
-    - Linux Debugging: lin_command.md
-    - AWS: aws.md
-    - Azure: azure.md
-    - Interview: interviewquestions.md
-    - Containers: containers.md
-    - PDFs: pdf.md
+    - Cloud: cloud.md
+    # - Interview: interviewquestions.md
+    # - Containers: containers.md
+    # - PDFs: pdf.md
+    
 
