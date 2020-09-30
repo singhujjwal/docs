@@ -128,6 +128,53 @@ Type values and their behaviors are:</p>
 <li>LoadBalancer: Exposes the service externally using a cloud provider’s load balancer. NodePort and ClusterIP services, to which the external load balancer will route, are automatically created.</li>
 <li>ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up. This requires version 1.7 or higher of kube-dns.</li>
 </ol>
+<p>A loadbalancer is exteneded type of nodeport service where an external loadbalancer is created based on the cloud provider.</p>
+<p>A loadbalancer will have a port mapping for the port LB is listening to the target port and the service name</p>
+<p>Tcp can be patched to the nginx ingress controller loadbalancer by creating a config map and telling where in which namespace which service on which port to hit.</p>
+<p>e.g. </p>
+<pre><code class="yaml">
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcp-echo
+  labels:
+    app: tcp-echo
+spec:
+  ports:
+  - name: tcp
+    port: 9000
+  selector:
+    app: tcp-echo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcp-echo
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: tcp-echo
+        version: v1
+    spec:
+      containers:
+      - name: tcp-echo
+        image: docker.io/istio/tcp-echo-server:1.1
+        imagePullPolicy: IfNotPresent
+        args: [ &quot;9000&quot;, &quot;hello&quot; ]
+        ports:
+        - containerPort: 9000
+
+
+</code></pre>
+
+<p>Below created the config map nginx-ingress-tcp while creating nginx load balancer</p>
+<p>--set tcp.9000="my-system/tcp-echo:9000" \</p>
 <h3 id="volumes">Volumes</h3>
 <p>Types of volumes
 * Local
