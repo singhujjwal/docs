@@ -75,6 +75,7 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#interview-questions">Interview questions</a></li>
+        <li class="main "><a href="#time-series-database-design">Time series database design</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -85,7 +86,25 @@
 <li>What is a microservice and what are the advantages of it over monolithic</li>
 <li>Why REST ?</li>
 <li>How streaming services works design a messaging system.</li>
-</ol></div>
+</ol>
+<h2 id="time-series-database-design">Time series database design</h2>
+<p>X = (t,v,q)
+[<em>] Most of the time every data point is handled as a new entry instead of as an update for already saved data entry
+[</em>] time series data usually is in time order when it arrives.
+[<em>] third characteristic is time indexed data, making time the primary axis for the data
+[</em>] Timestamp and k.v(Integer, String, floats and booleans)
+[*] InfluxQL is SQL like language </p>
+<p>Elasticsearch support near real-time
+reading which allows it to be used as NoSQL database. Elasticsearch uses JSON
+formatted documents as it datatypes which allow users to create their own data
+schema. As Elasticsearch is mainly a search and analytics engine, it has support for
+extended querying with multiple aggregating, filtering, and indexing functions. Data
+can be accessed through the REST API. Elasticsearch support scalability to multiple
+nodes and replication.</p>
+<p>. Scalability
+. Security
+. Availability
+. Performance</p></div>
         </div>
 
         <footer class="col-md-12">

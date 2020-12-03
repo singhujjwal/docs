@@ -84,13 +84,10 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#common">COMMON</a></li>
-            <li><a href="#commands">Commands</a></li>
+        <li class="main active"><a href="#bash-scripting">Bash Scripting</a></li>
             <li><a href="#update-code-present">Update code present</a></li>
-        <li class="main "><a href="#centos">Centos</a></li>
-            <li><a href="#mounting-nfs-volumes">Mounting NFS volumes</a></li>
-        <li class="main "><a href="#ubuntu">Ubuntu</a></li>
-            <li><a href="#setting-proxy-in-ubuntu-for-update">Setting proxy in ubuntu for update</a></li>
+        <li class="main "><a href="#setting-proxy-for-updates">Setting proxy for updates</a></li>
+            <li><a href="#ubuntu">Ubuntu</a></li>
         <li class="main "><a href="#troubleshooting">Troubleshooting</a></li>
             <li><a href="#networking">Networking</a></li>
         <li class="main "><a href="#linux-debugging">Linux Debugging</a></li>
@@ -100,8 +97,7 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="common">COMMON</h1>
-<h2 id="commands">Commands</h2>
+<h1 id="bash-scripting">Bash Scripting</h1>
 <h2 id="update-code-present">Update code present</h2>
 <ul>
 <li>Command to pull all the code from master branch in all the subdirectories in a code folder</li>
@@ -114,24 +110,8 @@ do
 done 
 </code></pre>
 
-<ul>
-<li></li>
-</ul>
-<h1 id="centos">Centos</h1>
-<h2 id="mounting-nfs-volumes">Mounting NFS volumes</h2>
-<p><code>mount -o rsize=32768,wsize=32768,noatime,intr &lt;ip-address&gt;:&lt;export-path&gt; &lt;mnt-point&gt;</code>
-<code>mkdir /mnt/myvol01</code>
-<code>mount -o rsize=32768,wsize=32768,noatime,intr 10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01</code></p>
-<p>Make entry in /etc/fstab for permanent</p>
-<p><code>10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01 nfs rw,hard,intr,rsize=32768,wsize=32768,timeo=14 0 0</code></p>
-<p>After making changes in <code>/etc/fstab</code> need to mount the directory as <code>mount /mnt/vol01/</code> and you 
-don't need to restart the machine neither nfs not linux</p>
-<p>Common NFS Issues
-The most common issue encountered when mounting and using an NFS volume are Access Denied and read-only types of problems.</p>
-<p>Access Denied - This typically happens when trying to mount an NFS export that has been restricted by IP address range, user ID or other permission restrictions. Try opening up the NFS export for access by any IP address and Everyone; i.e., loosen the security up during initial testing, then lock it back down one step at a time.</p>
-<p>Read-Only Access - When this happens, it is possible to mount the filesystem, but not possible to write to the mounted filesystem. This is a security permissions issue. Try opening up the permissions on the NFS export to Everyone as a starting point, then with a working NFS mount, choose to lock the security down incrementally.</p>
-<h1 id="ubuntu">Ubuntu</h1>
-<h2 id="setting-proxy-in-ubuntu-for-update">Setting proxy in ubuntu for update</h2>
+<h1 id="setting-proxy-for-updates">Setting proxy for updates</h1>
+<h2 id="ubuntu">Ubuntu</h2>
 <p><code>cat /etc/apt/apt.conf</code></p>
 <pre><code class="bash">Acquire::http::Proxy  &quot;http://proxy.example.com:80&quot;;
 Acquire::ftp::Proxy   &quot;https://proxy.example.com:80&quot;;
@@ -140,8 +120,9 @@ Acquire::https::Proxy &quot;http://proxy.example.com:80&quot;;
 
 <h1 id="troubleshooting">Troubleshooting</h1>
 <h2 id="networking">Networking</h2>
-<p>use either telent or ncat</p>
-<p>nc -vvvzw1 google.com 443</p>
+<p>use either telnet or ncat</p>
+<p>nc -vvvzw1 google.com 443
+nc is part of bind tools</p>
 <p>wget https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-2.4.0-static-linux-amd64.tar.xz
 chmod +x ./tmate 
 xz -cd te-2.4.0-static-linux-amd64.tar.xz | t 
