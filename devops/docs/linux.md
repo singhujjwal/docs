@@ -1,5 +1,6 @@
-# COMMON
-##  Commands
+
+
+# Bash Scripting
 ## Update code present 
 * Command to pull all the code from master branch in all the subdirectories in a code folder
 
@@ -11,32 +12,9 @@ do
   popd 
 done 
 ```
-* 
-# Centos
-## Mounting NFS volumes
 
-`mount -o rsize=32768,wsize=32768,noatime,intr <ip-address>:<export-path> <mnt-point>`
-`mkdir /mnt/myvol01`
-`mount -o rsize=32768,wsize=32768,noatime,intr 10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01`
-
-Make entry in /etc/fstab for permanent
-
-`10.22.197.195:/export/pool1/ujjwalvol /mnt/vol01 nfs rw,hard,intr,rsize=32768,wsize=32768,timeo=14 0 0`
-
-After making changes in `/etc/fstab` need to mount the directory as `mount /mnt/vol01/` and you 
-don't need to restart the machine neither nfs not linux
-
-Common NFS Issues
-The most common issue encountered when mounting and using an NFS volume are Access Denied and read-only types of problems.
- 
-Access Denied - This typically happens when trying to mount an NFS export that has been restricted by IP address range, user ID or other permission restrictions. Try opening up the NFS export for access by any IP address and Everyone; i.e., loosen the security up during initial testing, then lock it back down one step at a time.
- 
-Read-Only Access - When this happens, it is possible to mount the filesystem, but not possible to write to the mounted filesystem. This is a security permissions issue. Try opening up the permissions on the NFS export to Everyone as a starting point, then with a working NFS mount, choose to lock the security down incrementally.
-
-
-# Ubuntu
-
-## Setting proxy in ubuntu for update
+# Setting proxy for updates
+## Ubuntu
 
 `cat /etc/apt/apt.conf`
 
@@ -48,9 +26,11 @@ Acquire::https::Proxy "http://proxy.example.com:80";
 
 # Troubleshooting
 ## Networking 
-use either telent or ncat
+use either telnet or ncat
 
 nc -vvvzw1 google.com 443
+nc is part of bind tools
+
 
 wget https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-2.4.0-static-linux-amd64.tar.xz
 chmod +x ./tmate 
@@ -71,6 +51,10 @@ Linux debugging is nothing without knowing the right commands. That too in quick
 ## System Diagonostics
 * top
 * mpstat
+* sar # install using apt-get install sysstat
+    Cron job present here `cat /etc/cron.d/sysstat`
+    sar between 10AM-12 AM `sar -r -s 10:00:00 -e 12:00:00`
+    sar on 10th of the month `sar -f /var/log/sysstat/sa10 -b`
 
 ## Logs
 There are various log files generated in Linux system which will help debugging the errors.
