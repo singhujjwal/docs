@@ -3,6 +3,9 @@
 2. What is a microservice and what are the advantages of it over monolithic
 3. Why REST ?
 4. How streaming services works design a messaging system.
+5. Why you’re passionate about being an engineering manager at xxx in particular.
+6. How you approach engineering management.
+7. The team you’re most proud of supporting, and your role in helping it succeed.
 
 ## Time series database design
 X = (t,v,q)
@@ -29,7 +32,9 @@ nodes and replication.
 
 [*] Postgres  [link](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)
 
-Add user
+/usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+
+# Add user
 createuser --interactive --pwprompt
 Add database 
 createdb movies
