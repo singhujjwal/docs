@@ -147,6 +147,102 @@ sudo kubeadm join 172.31.100.147:6443 --token w28oiv.2dx6buwbj400mc4x --discover
 
 kubectl get nodes
 ```
+
+## Securing Persistent Key Value Store or SECRETS in k8s
+`kubectl get secrets`
+`kubectl run pod-with-defaults --image alpine --restart Never -- /bin/sleep 999999`
+`kubectl describe pods pod-with-defaults`
+```
+kubectl describe secret
+openssl genrsa -out https.key 2048
+openssl req -new -x509 -key https.key -out https.cert -days 3650 -subj /CN=www.example.com
+touch file
+kubectl create secret generic example-https --from-file=https.key --from-file=https.cert --from-file=file
+kubectl get secrets example-https -o yaml
+```
+
+`nginx.conf` ConfigMap
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  my-nginx-config.conf: |
+    server {
+        listen              80;
+        listen              443 ssl;
+        server_name         www.example.com;
+        ssl_certificate     certs/https.cert;
+        ssl_certificate_key certs/https.key;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers         HIGH:!aNULL:!MD5;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+    }
+  sleep-interval: |
+    25
+```
+
+`example-https.yaml`
+```
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-https
+spec:
+  containers:
+  - image: linuxacademycontent/fortune
+    name: html-web
+    env:
+    - name: INTERVAL
+      valueFrom:
+        configMapKeyRef:
+          name: config
+          key: sleep-interval
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    - name: config
+      mountPath: /etc/nginx/conf.d
+      readOnly: true
+    - name: certs
+      mountPath: /etc/nginx/certs/
+      readOnly: true
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+  volumes:
+  - name: html
+    emptyDir: {}
+  - name: config
+    configMap:
+      name: config
+      items:
+      - key: my-nginx-config.conf
+        path: https.conf
+  - name: certs
+    secret:
+      secretName: example-https
+
+```
+
+`kubectl exec example-https -c web-server -- mount | grep certs`
+`kubectl port-forward example-https 8443:443 &`
+`curl https://localhost:8443 -k`
+
 ## Cert-Manager
 
 Cert manager is a very important package for generating certs for applications in k8s.
