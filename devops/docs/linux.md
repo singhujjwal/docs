@@ -56,6 +56,14 @@ Linux debugging is nothing without knowing the right commands. That too in quick
     sar between 10AM-12 AM `sar -r -s 10:00:00 -e 12:00:00`
     sar on 10th of the month `sar -f /var/log/sysstat/sa10 -b`
 
+## File systems volumes external internal attaching detaching blah blah cloud_init
+1. tmpfs is the temporary file system in-memory similar as RAM
+2. cgroup
+
+
+
+
+
 ## Logs
 There are various log files generated in Linux system which will help debugging the errors.
 

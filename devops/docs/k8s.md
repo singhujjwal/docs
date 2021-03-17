@@ -152,6 +152,7 @@ kubectl get nodes
 `kubectl get secrets`
 `kubectl run pod-with-defaults --image alpine --restart Never -- /bin/sleep 999999`
 `kubectl describe pods pod-with-defaults`
+`kubectl exec pod id`
 ```
 kubectl describe secret
 openssl genrsa -out https.key 2048
