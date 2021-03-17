@@ -64,6 +64,9 @@
                             <li >
                                 <a href="../containers/">Containers</a>
                             </li>
+                            <li >
+                                <a href="../web-conecpts/">WebConcepts</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -92,6 +95,10 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#interview-questions">Interview questions</a></li>
         <li class="main "><a href="#time-series-database-design">Time series database design</a></li>
+        <li class="main "><a href="#databases">Databases</a></li>
+        <li class="main "><a href="#add-user">Add user</a></li>
+        <li class="main "><a href="#system-design-interviews">System Design interviews</a></li>
+            <li><a href="#loadbalancer">Loadbalancer</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -102,6 +109,9 @@
 <li>What is a microservice and what are the advantages of it over monolithic</li>
 <li>Why REST ?</li>
 <li>How streaming services works design a messaging system.</li>
+<li>Why you’re passionate about being an engineering manager at xxx in particular.</li>
+<li>How you approach engineering management.</li>
+<li>The team you’re most proud of supporting, and your role in helping it succeed.</li>
 </ol>
 <h2 id="time-series-database-design">Time series database design</h2>
 <p>X = (t,v,q)
@@ -120,7 +130,34 @@ nodes and replication.</p>
 <p>. Scalability
 . Security
 . Availability
-. Performance</p></div>
+. Performance</p>
+<h2 id="databases">Databases</h2>
+<p>[*] Postgres  <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04">link</a></p>
+<p>/usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start</p>
+<h1 id="add-user">Add user</h1>
+<p>createuser --interactive --pwprompt
+Add database 
+createdb movies</p>
+<h1 id="system-design-interviews">System Design interviews</h1>
+<h2 id="loadbalancer">Loadbalancer</h2>
+<ol>
+<li>Software LoadBalancer</li>
+<li>Hardware Loadbalancer</li>
+</ol>
+<h3 id="loadbalancing-algortithms">Loadbalancing algortithms</h3>
+<p>[<em>] Round Robin – Requests are distributed across the group of servers sequentially.
+[</em>] Least Connections – A new request is sent to the server with the fewest current connections to clients. The relative computing capacity of each server is factored into determining which one has the least connections.
+[<em>] Least Time – Sends requests to the server selected by a formula that combines the
+fastest response time and fewest active connections.
+[</em>] Hash – Distributes requests based on a key you define, such as the client IP address or
+the request URL. 
+[<em>] IP Hash – The IP address of the client is used to determine which server receives the request.
+[</em>] Random with Two Choices – Picks two servers at random and sends the request to the
+one that is selected by then applying the Least Connections algorithm (or for NGINX Plus
+the Least Time algorithm, if so configured).</p>
+<p>Session Persistence or Stickieness - &gt; Two options either determined through the hash function which calculates hash based on the browser saved cookies else
+stores the data locally at the load balancer.</p>
+<p>L7 vs L4 Load balancing L7 is more CPU intensive as it has to do more processing till the packet reaches application layer rather at networking level.</p></div>
         </div>
 
         <footer class="col-md-12">

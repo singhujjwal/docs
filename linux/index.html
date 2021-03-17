@@ -64,6 +64,9 @@
                             <li >
                                 <a href="../containers/">Containers</a>
                             </li>
+                            <li >
+                                <a href="../web-conecpts/">WebConcepts</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -98,6 +101,7 @@
             <li><a href="#networking">Networking</a></li>
         <li class="main "><a href="#linux-debugging">Linux Debugging</a></li>
             <li><a href="#system-diagonostics">System Diagonostics</a></li>
+            <li><a href="#file-systems-volumes-external-internal-attaching-detaching-blah-blah-cloud_init">File systems volumes external internal attaching detaching blah blah cloud_init</a></li>
             <li><a href="#logs">Logs</a></li>
     </ul>
 </div></div>
@@ -145,7 +149,16 @@ xz -cd te-2.4.0-static-linux-amd64.tar.xz | t
 <ul>
 <li>top</li>
 <li>mpstat</li>
+<li>sar # install using apt-get install sysstat
+    Cron job present here <code>cat /etc/cron.d/sysstat</code>
+    sar between 10AM-12 AM <code>sar -r -s 10:00:00 -e 12:00:00</code>
+    sar on 10th of the month <code>sar -f /var/log/sysstat/sa10 -b</code></li>
 </ul>
+<h2 id="file-systems-volumes-external-internal-attaching-detaching-blah-blah-cloud_init">File systems volumes external internal attaching detaching blah blah cloud_init</h2>
+<ol>
+<li>tmpfs is the temporary file system in-memory similar as RAM</li>
+<li>cgroup</li>
+</ol>
 <h2 id="logs">Logs</h2>
 <p>There are various log files generated in Linux system which will help debugging the errors.</p>
 <h3 id="journalctl">journalctl</h3>

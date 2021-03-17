@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://singhujjwal.github.io/docs/pdf/">
+        <link rel="canonical" href="https://singhujjwal.github.io/docs/web-conecpts/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Links to PDFs to be referenced - Cloud and Devops</title>
+        <title>WebConcepts - Cloud and Devops</title>
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -64,8 +64,8 @@
                             <li >
                                 <a href="../containers/">Containers</a>
                             </li>
-                            <li >
-                                <a href="../web-conecpts/">WebConcepts</a>
+                            <li class="active">
+                                <a href="./">WebConcepts</a>
                             </li>
                         </ul>
 
@@ -75,6 +75,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li >
+                                <a rel="next" href="../containers/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a rel="prev" >
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -83,15 +93,34 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#links-to-pdfs-to-be-referenced">Links to PDFs to be referenced</a></li>
+        <li class="main active"><a href="#web-concepts">Web Concepts</a></li>
+            <li><a href="#ssl-certificates-for-website">SSL Certificates for website</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="links-to-pdfs-to-be-referenced">Links to PDFs to be referenced</h1>
-<ol>
-<li><a href="/docs/LinuxAcademy/ckad-study-guide_1553796139.pdf">CKAD</a></li>
-</ol></div>
+<h1 id="web-concepts">Web Concepts</h1>
+<p>Here I will again practice creating a website using the latest technology with mobile native application and 
+containerized backend, I just hope to keep the steam till the end this time :)</p>
+<p>Starting with creating a personal blog --&gt; Later will make it informational for any mid level software engineer to level up
+few topics needed for 
+1. Mobile apps
+2. Websites
+3. AI/ML application
+4. Cloud Native backend
+5. De-coupled code.
+6. Not much emphasis on beauty for now, just a working model but with all the extendable tech and build anywhere deploy everywhere.</p>
+<h2 id="ssl-certificates-for-website">SSL Certificates for website</h2>
+<h3 id="certbot">Certbot</h3>
+<p>Certbot is used to create letsencrypt certificates for websites</p>
+<pre><code>certbot certonly   \
+-d singhjee.in \
+--logs-dir /home/centos/letsencrypt/log/    \
+--config-dir /home/centos/letsencrypt/config/    \
+--work-dir /home/centos/letsencrypt/work/ \
+-m myemail@gmail.com \
+--agree-tos --manual --preferred-challenges dns
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">
