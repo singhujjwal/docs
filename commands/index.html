@@ -46,13 +46,7 @@
                                 <a href="../cloud/" class="nav-link">Cloud</a>
                             </li>
                             <li class="navitem">
-                                <a href="../interviewquestions/" class="nav-link">Interview</a>
-                            </li>
-                            <li class="navitem">
                                 <a href="../containers/" class="nav-link">Containers</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="../web-conecpts/" class="nav-link">WebConcepts</a>
                             </li>
                             <li class="navitem active">
                                 <a href="./" class="nav-link">Commands</a>
@@ -66,7 +60,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../web-conecpts/" class="nav-link">
+                                <a rel="prev" href="../containers/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -108,23 +102,25 @@
 
 <h1 id="quick-reference-commands">Quick Reference Commands</h1>
 <h2 id="git">GIT</h2>
-<h3 id="revert-a-pr">Revert a PR</h3>
-<p>git checkout <branch>
+<h5 id="revert-a-pr">Revert a PR</h5>
+<pre><code>git checkout &lt;branch&gt;
 git pull
-git log</p>
-<p>now switch to another branch
-gco -b revert-pr</p>
-<p><code>git revert -m 1 &lt;SHA-1&gt;</code>
-<code>git push</code></p>
-<h3 id="revert-a-local-commit">Revert a local commit</h3>
-<h4 id="revert-last-commit">Revert last commit</h4>
-<p>git reset --hard HEAD~1</p>
-<h4 id="revert-last-5-commits">Revert last 5 commits</h4>
-<p>git reset --hard HEAD~5</p>
-<h4 id="rever-commits-but-keep-content">Rever commits but keep content</h4>
-<p>git reset --soft HEAD~1</p>
-<h4 id="delete-a-specific-commit">Delete a specific commit</h4>
-<p>git reset --hard <sha1-commit-hash></p></div>
+git log
+</code></pre>
+<p>now switch to another branch</p>
+<pre><code>gco -b revert-pr
+git revert -m 1 &lt;SHA-1&gt;
+git push
+</code></pre>
+<h4 id="revert-local-commit">Revert local commit</h4>
+<h5 id="revert-last-commit">Revert last commit</h5>
+<p><code>git reset --hard HEAD~1</code></p>
+<h5 id="revert-last-5-commits">Revert last 5 commits</h5>
+<p><code>git reset --hard HEAD~5</code></p>
+<h5 id="revert-commits-but-keep-content">Revert commits but keep content</h5>
+<p><code>git reset --soft HEAD~1</code></p>
+<h5 id="delete-a-specific-commit">Delete a specific commit</h5>
+<p><code>git reset --hard &lt;sha1-commit-hash&gt;</code></p></div>
             </div>
         </div>
 
