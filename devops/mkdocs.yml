@@ -5,9 +5,9 @@ nav:
     - K8S Concepts: k8s.md
     - Linux: linux.md
     - Cloud: cloud.md
-    - Interview: interviewquestions.md
+    # - Interview: interviewquestions.md
     - Containers: containers.md
-    - WebConcepts: web-conecpts.md
+    # - WebConcepts: web-conecpts.md
     - Commands: commands.md
     # - PDFs: pdf.md
     
