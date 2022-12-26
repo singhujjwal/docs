@@ -128,6 +128,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#getting-docker-daemon-logs-in-mac" class="nav-link">Getting docker daemon logs in MAC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -191,7 +195,10 @@ xz -cd te-2.4.0-static-linux-amd64.tar.xz | t
 <p>journalctl is a command for viewing logs collected by systemd. The systemd-journald service is responsible for systemd’s log collection, and it retrieves messages from the kernel, systemd services, and other sources.</p>
 <p><code>journalctl -r</code>
 <code>journalctl -u telegraf --no-pager -f</code> to see all the logs without paging and following the running logs</p>
-<p>persist logs by making changes here /etc/systemd/journald.conf</p></div>
+<p>persist logs by making changes here /etc/systemd/journald.conf</p>
+<h2 id="getting-docker-daemon-logs-in-mac">Getting docker daemon logs in MAC</h2>
+<p>pred='process matches ".<em>(ocker|vpnkit).</em>" || (process in {"taskgated-helper", "launchservicesd", "kernel"} &amp;&amp; eventMessage contains[c] "docker")'
+/usr/bin/log stream --style syslog --level=debug --color=always --predicate "$pred"</p></div>
             </div>
         </div>
 
