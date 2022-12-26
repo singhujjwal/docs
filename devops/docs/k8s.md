@@ -104,46 +104,57 @@ kubectl port-forward svc/redis-master 6379:6379
 ## K8s Install on CENTOS
 
 ```bash
+  
+# setup /etc/hosts with right names
+  
+cat << EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+sudo modprobe overlay
+sudo modprobe br_netfilter
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+sudo sysctl --system
+  
+#install containerd
+sudo apt-get update && sudo apt-get install -y containerd
+sudo mkdir -p /etc/containerd
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd
+  
 sudo swapoff -a
 sudo vi /etc/fstab
-sudo yum -y install docker
-sudo systemctl enable docker
-sudo systemctl start docker
-cat << EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-EOF
-sudo setenforce 0
-sudo vi /etc/selinux/config
-# Change to permissive
-sudo yum install -y kubelet kubeadm kubectl
-sudo systemctl enable kubelet
-sudo systemctl start kubelet
-cat << EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
+
 
 sudo sysctl --system
-
+# On all nodes
+  
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update
+sudo apt-get install -y kubelet=1.23.0-00 kubeadm=1.23.0-00 kubectl=1.23.0-00 sudo apt-mark hold kubelet kubeadm kubectl
+  
 #Only on master
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.23.0
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-# Check for right flannel
-# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-# only on worker nodes
-sudo kubeadm join $controller_private_ip:6443 --token $token --discovery-token-ca-cert-hash $hash
-
-sudo kubeadm join 172.31.100.147:6443 --token w28oiv.2dx6buwbj400mc4x --discovery-token-ca-cert-hash sha256:ed0e354f71183a76cbb58166d5d710b3b39e343c253ee232509ce5f412d05b3a
+kubectl get nodes
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+  
+kubeadm token create --print-join-command  
+  
+# on all worker nodes  
+sudo kubeadm join ...
+  
 
 kubectl get nodes
 ```
