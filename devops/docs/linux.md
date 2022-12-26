@@ -74,3 +74,8 @@ journalctl is a command for viewing logs collected by systemd. The systemd-journ
 `journalctl -u telegraf --no-pager -f` to see all the logs without paging and following the running logs
 
 persist logs by making changes here /etc/systemd/journald.conf
+
+
+## Getting docker daemon logs in MAC
+pred='process matches ".*(ocker|vpnkit).*" || (process in {"taskgated-helper", "launchservicesd", "kernel"} && eventMessage contains[c] "docker")'
+/usr/bin/log stream --style syslog --level=debug --color=always --predicate "$pred"
