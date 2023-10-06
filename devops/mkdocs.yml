@@ -9,6 +9,7 @@ nav:
     - Containers: containers.md
     # - WebConcepts: web-conecpts.md
     - Commands: commands.md
+    - Gradle: gradle.md
     # - PDFs: pdf.md
     
 
