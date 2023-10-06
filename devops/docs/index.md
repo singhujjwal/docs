@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Quick reference
 
 ## DEVOPS
@@ -12,3 +5,4 @@
 ## K8s
 ## Linux 
 ## Quick Commands
+## Gradle
