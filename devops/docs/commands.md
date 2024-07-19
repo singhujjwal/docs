@@ -17,6 +17,10 @@ git revert -m 1 <SHA-1>
 git push
 ```
 
+####
+Revert n commits 
+git revert HEAD~n..HEAD
+
 ####  Revert local commit 
 
 ##### Revert last commit 
